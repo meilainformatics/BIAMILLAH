@@ -1,17 +1,20 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const filmList = document.getElementById("filmList");
-    
-    // Ambil data dari localStorage
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    if (!userData) {
-        filmList.innerHTML = "<p>Data tidak ditemukan. Silakan kembali dan isi formulir.</p>";
-        return;
-    }
-    
-    const { mbti, umur, mood, genre } = userData;
-    
-    // Data film contoh (nanti bisa ditambahkan lebih banyak di script.js)
-    const filmData = {
+document.getElementById('userForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let mbti = document.getElementById('mbti').value;
+    let age = document.getElementById('age').value;
+    let mood = document.getElementById('mood').value;
+    let genre = document.getElementById('genre').value.toLowerCase();
+
+    // Proses data dan beri rekomendasi film berdasarkan input pengguna
+    let recommendation = getMovieRecommendation(mbti, mood, genre);
+    document.getElementById('recommendation').innerText = recommendation;
+});
+
+function getMovieRecommendation(mbti, mood, genre) {
+    // Contoh data film berdasarkan genre
+    const movies = {
+
 {
   "intj": [
     {
@@ -1560,26 +1563,13 @@ document.addEventListener("DOMContentLoaded", function () {
   ]
     };
     
-    // Filter film sesuai input
-    const rekomendasi = (filmData[mbti] || []).filter(film => 
-        film.mood === mood && 
-        film.genre === genre && 
-        parseInt(film.age_rating) <= parseInt(umur)
-    );
+
+    let moodRecommendation = `Dengan mood Anda yang "${mood}", kami rekomendasikan: `;
     
-    if (rekomendasi.length === 0) {
-        filmList.innerHTML = "<p>Tidak ada film yang cocok dengan kriteria Anda.</p>";
+    if (movies[genre]) {
+        let genreRecommendation = `Genre ${genre.charAt(0).toUpperCase() + genre.slice(1)}: ` + movies[genre].join(', ');
+        return moodRecommendation + genreRecommendation;
     } else {
-        rekomendasi.forEach(film => {
-            const filmCard = document.createElement("div");
-            filmCard.classList.add("film-card");
-            filmCard.innerHTML = `
-                <img src="${film.img}" alt="${film.title}">
-                <h2>${film.title}</h2>
-                <p>Genre: ${film.genre}</p>
-                <p>Rating Usia: ${film.age_rating}</p>
-            `;
-            filmList.appendChild(filmCard);
-        });
+        return `Genre "${genre}" tidak ditemukan, coba genre lain.`;
     }
-});
+}
