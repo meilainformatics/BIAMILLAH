@@ -1563,7 +1563,6 @@ function getMovieRecommendation(mbti, mood, genre) {
   ]
     };
     
-
     let moodRecommendation = `Dengan mood Anda yang "${mood}", kami rekomendasikan: `;
     
     if (movies[genre]) {
