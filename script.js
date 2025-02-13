@@ -2,7 +2,7 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
     let mbti = document.getElementById('mbti').value;
-    let age = document.getElementById('age').value;
+    let age = document.getElementById('age_rating').value;
     let mood = document.getElementById('mood').value;
     let genre = document.getElementById('genre').value.toLowerCase();
 
@@ -1565,8 +1565,8 @@ function getMovieRecommendation(mbti, mood, genre) {
     
     let moodRecommendation = `Dengan mood Anda yang "${mood}", kami rekomendasikan: `;
     
-    if (movies[genre]) {
-        let genreRecommendation = `Genre ${genre.charAt(0).toUpperCase() + genre.slice(1)}: ` + movies[genre].join(', ');
+    if (tittle[genre]) {
+        let genreRecommendation = `Genre ${genre.charAt(0).toUpperCase() + genre.slice(1)}: ` + title[genre].join(', ');
         return moodRecommendation + genreRecommendation;
     } else {
         return `Genre "${genre}" tidak ditemukan, coba genre lain.`;
